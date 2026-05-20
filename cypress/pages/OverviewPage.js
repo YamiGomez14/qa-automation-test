@@ -1,11 +1,34 @@
 class OverviewPage {
 
+  elements = {
+
+    finishButton: () =>
+      cy.get('[data-test="finish"]'),
+
+    successMessage: () =>
+      cy.contains('Thank you for your order!'),
+
+    overviewTitle: () =>
+      cy.contains('Checkout: Overview')
+  }
+
+  validateCheckoutOverview() {
+
+    this.elements.overviewTitle()
+      .should('be.visible');
+  }
+
   finishPurchase() {
-    cy.get('[data-test="finish"]').click();
+
+    this.elements.finishButton()
+      .should('be.visible')
+      .click();
   }
 
   validateSuccessfulPurchase() {
-    cy.contains('Thank you for your order!').should('be.visible');
+
+    this.elements.successMessage()
+      .should('be.visible');
   }
 }
 

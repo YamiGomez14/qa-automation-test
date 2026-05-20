@@ -1,62 +1,81 @@
-describe('PetStore API Tests Devsu', () => {
+import PetStoreApi from '../api/PetStoreAPI';
 
-  const petId = Date.now()
+describe('PetStore API Tests - Dolly (My Dog)', () => {
 
-  it('Should complete PetStore CRUD flow', () => {
+  const api = new PetStoreApi();
 
-    // POST - Add a pet to the store
-    cy.request({
-      method: 'POST',
-      url: 'https://petstore.swagger.io/v2/pet',
-      body: {
-        id: petId,
-        name: 'Dolly Gomez',
-        status: 'available'
-      }
+  const petId = Date.now();
+
+  beforeEach(function () {
+
+    cy.fixture('pet').then((petData) => {
+
+      this.petData = petData;
+    })
+  })
+
+  it('Should complete PetStore CRUD flow successfully', function () {
+
+    //Create
+    api.createPet({
+      id: petId,
+      name: this.petData.name,
+      status: this.petData.initialStatus
     }).then((response) => {
 
       expect(response.status).to.eq(200)
-      expect(response.body.name).to.eq('Dolly Gomez')
-    });
 
-    // GET - Pet by ID
-    cy.request({
-      method: 'GET',
-      url: `https://petstore.swagger.io/v2/pet/${petId}`
-    }).then((response) => {
+      expect(response.duration)
+        .to.be.lessThan(3000);
 
-      expect(response.status).to.eq(200)
-      expect(response.body.id).to.eq(petId)
-    });
-
-    // UPDATE - Pet
-    cy.request({
-      method: 'PUT',
-      url: 'https://petstore.swagger.io/v2/pet',
-      body: {
-        id: petId,
-        name: 'Dolly Moran',
-        status: 'sold'
-      }
-    }).then((response) => {
-
-      expect(response.status).to.eq(200)
-      expect(response.body.status).to.eq('sold')
+      expect(response.body.name)
+        .to.eq(this.petData.name);
     })
 
-    // Find the modified pet by status
-    cy.request({
-      method: 'GET',
-      url: 'https://petstore.swagger.io/v2/pet/findByStatus?status=sold'
+    // GET by ID
+    api.getPetById(petId)
+      .then((response) => {
+
+        expect(response.status)
+          .to.eq(200);
+
+        expect(response.body.id)
+          .to.eq(petId);
+
+        expect(response.body.name)
+          .to.eq(this.petData.name);
+      })
+
+    // Update the name and status
+    api.updatePet({
+      id: petId,
+      name: this.petData.updatedName,
+      status: this.petData.updatedStatus
     }).then((response) => {
 
-      expect(response.status).to.eq(200)
+      expect(response.status)
+        .to.eq(200);
 
-      const petFound = response.body.some(
-        pet => pet.id === petId
-      )
+      expect(response.body.status)
+        .to.eq(this.petData.updatedStatus);
 
-      expect(petFound).to.be.true
-    });
+      expect(response.body.name)
+        .to.eq(this.petData.updatedName);
+    })
+
+    // Find by status
+    api.findPetsByStatus(this.petData.updatedStatus)
+      .then((response) => {
+
+        expect(response.status)
+          .to.eq(200);
+
+        const petFound = response.body.some(
+          pet => pet.id === petId
+        )
+
+        expect(petFound)
+          .to.be.true
+      });
   });
 });

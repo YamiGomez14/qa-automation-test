@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-05-20T19:34:15.841Z",
+    "end": "2026-05-20T19:34:16.637Z",
+    "duration": 796,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "e92a2e40-4c60-4e6a-81c6-e5617b6dd9bc",
+      "title": "",
+      "fullFile": "cypress\\e2e\\api\\petstore.cy.js",
+      "file": "cypress\\e2e\\api\\petstore.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "9cc0821e-48f3-417d-b948-14f7af6bccf7",
+          "title": "PetStore API Tests Dolly (My Dog)",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should complete PetStore CRUD flow successfully",
+              "fullTitle": "PetStore API Tests Dolly (My Dog) Should complete PetStore CRUD flow successfully",
+              "timedOut": null,
+              "duration": 718,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "//Create\napi.createPet({\n  id: petId,\n  name: this.petData.name,\n  status: this.petData.initialStatus\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.duration).to.be.lessThan(3000);\n  expect(response.body.name).to.eq(this.petData.name);\n});\n// GET by ID\napi.getPetById(petId).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body.id).to.eq(petId);\n  expect(response.body.name).to.eq(this.petData.name);\n});\n// UPDATE\napi.updatePet({\n  id: petId,\n  name: this.petData.updatedName,\n  status: this.petData.updatedStatus\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body.status).to.eq(this.petData.updatedStatus);\n  expect(response.body.name).to.eq(this.petData.updatedName);\n});\n// FIND PET BY STATUS\napi.findPetsByStatus(this.petData.updatedStatus).then(response => {\n  expect(response.status).to.eq(200);\n  const petFound = response.body.some(pet => pet.id === petId);\n  expect(petFound).to.be.true;\n});",
+              "err": {},
+              "uuid": "d85a1140-2554-43a3-87ff-81ae27d04962",
+              "parentUUID": "9cc0821e-48f3-417d-b948-14f7af6bccf7",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "d85a1140-2554-43a3-87ff-81ae27d04962"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 718,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "reports/mochawesome",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

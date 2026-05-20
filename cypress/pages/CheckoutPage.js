@@ -1,16 +1,36 @@
 class CheckoutPage {
 
+  elements = {
+
+    firstNameInput: () =>
+      cy.get('[data-test="firstName"]'),
+
+    lastNameInput: () =>
+      cy.get('[data-test="lastName"]'),
+
+    postalCodeInput: () =>
+      cy.get('[data-test="postalCode"]'),
+
+    continueButton: () =>
+      cy.get('[data-test="continue"]')
+  }
+
   fillCheckoutInformation(firstName, lastName, postalCode) {
 
-    cy.get('[data-test="firstName"]').type(firstName);
+    this.elements.firstNameInput()
+      .type(firstName);
 
-    cy.get('[data-test="lastName"]').type(lastName);
+    this.elements.lastNameInput()
+      .type(lastName);
 
-    cy.get('[data-test="postalCode"]').type(postalCode);
+    this.elements.postalCodeInput()
+      .type(postalCode);
   }
 
   continueCheckout() {
-    cy.get('[data-test="continue"]').click();
+
+    this.elements.continueButton()
+      .click();
   }
 }
 

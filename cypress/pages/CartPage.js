@@ -1,12 +1,21 @@
 class CartPage {
 
-  validateProducts() {
-    cy.contains('Sauce Labs Backpack');
-    cy.contains('Sauce Labs Bike Light');
+  elements = {
+
+    backpackItem: () =>
+      cy.contains('Sauce Labs Backpack'),
+
+    bikeLightItem: () =>
+      cy.contains('Sauce Labs Bike Light'),
+
+    checkoutButton: () =>
+      cy.get('[data-test="checkout"]')
   }
 
   clickCheckout() {
-    cy.get('[data-test="checkout"]').click();
+
+    this.elements.checkoutButton()
+      .click();
   }
 }
 

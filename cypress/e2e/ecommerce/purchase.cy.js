@@ -1,42 +1,67 @@
-import LoginPage from '../../pages/LoginPage';
-import InventoryPage from '../../pages/InventoryPage';
-import CartPage from '../../pages/CartPage';
-import CheckoutPage from '../../pages/CheckoutPage';
-import OverviewPage from '../../pages/OverviewPage';
+import LoginPage from '../../pages/LoginPage'
+import InventoryPage from '../../pages/InventoryPage'
+import CartPage from '../../pages/CartPage'
+import CheckoutPage from '../../pages/CheckoutPage'
+import OverviewPage from '../../pages/OverviewPage'
 
-describe('SauceDemo Purchase Flow Devsu Test', () => {
+describe('SauceDemo - Devsu', () => {
 
-  const loginPage = new LoginPage();
-  const inventoryPage = new InventoryPage();
-  const cartPage = new CartPage();
-  const checkoutPage = new CheckoutPage();
-  const overviewPage = new OverviewPage();
+  const loginPage = new LoginPage()
+  const inventoryPage = new InventoryPage()
+  const cartPage = new CartPage()
+  const checkoutPage = new CheckoutPage()
+  const overviewPage = new OverviewPage()
 
-  beforeEach(() => {
-    cy.fixture('user').as('userData');
+  beforeEach(function () {
+
+    cy.fixture('user').then((userData) => {
+
+      this.userData = userData
+    })
+
+    loginPage.visit();
   })
 
   it('Should complete a purchase successfully', function () {
 
-    loginPage.visit();
-
+    // Login
     loginPage.login(
       this.userData.username,
       this.userData.password
     )
 
-    cy.url().should('include', '/inventory')
+    // Login validations
+    cy.url()
+      .should('include', '/inventory')
 
-    inventoryPage.addBackpackToCart();
-    inventoryPage.addBikeLightToCart();
+    cy.contains('Products')
+      .should('be.visible')
 
-    inventoryPage.validateCartBadge(2);
+    // Add products
+    inventoryPage.addBackpackToCart()
 
-    inventoryPage.openCart();
+    inventoryPage.addBikeLightToCart()
 
-    cartPage.validateProducts();
+    // Cart badge validation
+    inventoryPage.elements.cartBadge()
+      .should('contain', '2')
 
-    cartPage.clickCheckout();
+    // Open cart
+    inventoryPage.openCart()
+
+    // Product validations
+    cartPage.elements.backpackItem()
+      .should('be.visible')
+
+    cartPage.elements.bikeLightItem()
+      .should('be.visible')
+
+    // Checkout
+    cartPage.clickCheckout()
+
+    // Checkout form validations
+    checkoutPage.elements.firstNameInput()
+      .should('be.visible')
 
     checkoutPage.fillCheckoutInformation(
       this.userData.firstName,
@@ -44,10 +69,17 @@ describe('SauceDemo Purchase Flow Devsu Test', () => {
       this.userData.postalCode
     )
 
-    checkoutPage.continueCheckout();
+    checkoutPage.continueCheckout()
 
-    overviewPage.finishPurchase();
+    // Overview validations
+    overviewPage.elements.overviewTitle()
+      .should('be.visible')
 
-    overviewPage.validateSuccessfulPurchase();
-  });
-});
+    // Finish purchase
+    overviewPage.finishPurchase()
+
+    // Success validation
+    overviewPage.elements.successMessage()
+      .should('be.visible')
+  })
+})

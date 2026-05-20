@@ -1,19 +1,36 @@
 class InventoryPage {
 
+  elements = {
+
+    backpackButton: () =>
+      cy.get('[data-test="add-to-cart-sauce-labs-backpack"]'),
+
+    bikeLightButton: () =>
+      cy.get('[data-test="add-to-cart-sauce-labs-bike-light"]'),
+
+    cartBadge: () =>
+      cy.get('.shopping_cart_badge'),
+
+    cartLink: () =>
+      cy.get('.shopping_cart_link')
+  }
+
   addBackpackToCart() {
-    cy.get('[data-test="add-to-cart-sauce-labs-backpack"]').click();
+
+    this.elements.backpackButton()
+      .click();
   }
 
   addBikeLightToCart() {
-    cy.get('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
-  }
 
-  validateCartBadge(count) {
-    cy.get('.shopping_cart_badge').should('contain', count);
+    this.elements.bikeLightButton()
+      .click();
   }
 
   openCart() {
-    cy.get('.shopping_cart_link').click();
+
+    this.elements.cartLink()
+      .click();
   }
 }
 
