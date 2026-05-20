@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-05-20T19:06:03.379Z",
+    "end": "2026-05-20T19:06:04.192Z",
+    "duration": 813,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "c8fc0cbe-120f-44a3-974e-eb07c5389bdc",
+      "title": "",
+      "fullFile": "cypress\\e2e\\api\\petstore.cy.js",
+      "file": "cypress\\e2e\\api\\petstore.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "47bc7d79-0af6-4c20-aaf2-4dff4cfdaa23",
+          "title": "PetStore API Tests Devsu",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should complete PetStore CRUD flow",
+              "fullTitle": "PetStore API Tests Devsu Should complete PetStore CRUD flow",
+              "timedOut": null,
+              "duration": 694,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// POST - Add a pet to the store\ncy.request({\n  method: 'POST',\n  url: 'https://petstore.swagger.io/v2/pet',\n  body: {\n    id: petId,\n    name: 'Dolly Gomez',\n    status: 'available'\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body.name).to.eq('Dolly Gomez');\n});\n// GET - Pet by ID\ncy.request({\n  method: 'GET',\n  url: `https://petstore.swagger.io/v2/pet/${petId}`\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body.id).to.eq(petId);\n});\n// UPDATE - Pet\ncy.request({\n  method: 'PUT',\n  url: 'https://petstore.swagger.io/v2/pet',\n  body: {\n    id: petId,\n    name: 'Dolly Moran',\n    status: 'sold'\n  }\n}).then(response => {\n  expect(response.status).to.eq(200);\n  expect(response.body.status).to.eq('sold');\n});\n// Find the modified pet by status\ncy.request({\n  method: 'GET',\n  url: 'https://petstore.swagger.io/v2/pet/findByStatus?status=sold'\n}).then(response => {\n  expect(response.status).to.eq(200);\n  const petFound = response.body.some(pet => pet.id === petId);\n  expect(petFound).to.be.true;\n});",
+              "err": {},
+              "uuid": "71704fcd-5231-4e68-9d80-19314f9d9718",
+              "parentUUID": "47bc7d79-0af6-4c20-aaf2-4dff4cfdaa23",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "71704fcd-5231-4e68-9d80-19314f9d9718"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 694,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "reports/mochawesome",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

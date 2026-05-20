@@ -1,0 +1,9 @@
+CONCLUSIONS
+
+- E2E automation was implemented using Cypress and Page Object Model.
+- API automation was implemented for PetStore Swagger endpoints.
+- Assertions were added for UI and API validations.
+- Mochawesome reports were configured successfully.
+- The framework structure allows scalability and maintainability.
+- Fixtures and reusable components were implemented following best practices.
+- The solution can be integrated easily into CI/CD pipelines such as GitHub Actions, CircleCi.
